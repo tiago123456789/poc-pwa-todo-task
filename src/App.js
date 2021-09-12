@@ -10,13 +10,13 @@ function App() {
   }
 
   useEffect(() => {
-    let todos = localStorage.getItem("todos")
-    if (!todos) {
-      setTodos([])
-      return;
-    }
-    todos = JSON.parse(todos)
-    setTodos(todos);
+    // let todos = localStorage.getItem("todos")
+    // if (!todos) {
+    //   setTodos([])
+    //   return;
+    // }
+    // todos = JSON.parse(todos)
+    // setTodos(todos);
   }, [])
 
   const create = (event) => {
