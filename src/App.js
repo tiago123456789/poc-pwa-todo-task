@@ -11,7 +11,11 @@ function App() {
 
   useEffect(() => {
     let todos = localStorage.getItem("todos")
-    todos = JSON.parse(todos || [])
+    if (!todos) {
+      setTodos([])
+      return;
+    }
+    todos = JSON.parse(todos)
     setTodos(todos);
   }, [])
 
