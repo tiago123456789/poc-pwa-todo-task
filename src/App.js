@@ -26,7 +26,7 @@ function App() {
   }
 
   const isOffline = () => {
-    return navigator.onLine == false
+    return navigator.onLine === false
   }
 
   const storeInLocalDb = (todo) => {
