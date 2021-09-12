@@ -1,31 +1,18 @@
 var CACHE_NAME = 'otimigas-app';
 
-var urlsToCache = [
-    '/',
-    '/?',
-    "/asset-manifest.json",
-    "/static/**/*.js",
-    "/static/js/vendors~main.chunk.js",
-    '/static/js/bundle.js',
-    '/static/js/main.chunk.js',
-    '/static/js/1.chunk.js',
-    '/static/js/0.chunk.js',
-    '/favicon.ico',
-    '/css?family=Open+Sans',
-    '/icon?family=Material+Icons',
-    "/manifest.json",
-    "/logo192.png",
-    "/logo512.png"
-];
+self.addEventListener('install', (event) => {
+    event.waitUntil(self.skipWaiting());
+});
 
-self.addEventListener('install', function (event) {
-    // Perform install steps
-    event.waitUntil(
-        caches.open(CACHE_NAME)
-            .then(function (cache) {
-                return cache.addAll(urlsToCache);
-            })
-    );
+self.addEventListener('message', (event) => {
+    if (event.data.type === 'CACHE_URLS') {
+        event.waitUntil(
+            caches.open(KEY)
+                .then( (cache) => {
+                    return cache.addAll(event.data.payload);
+                })
+        );
+    }
 });
 
 self.addEventListener('fetch', function (event) {
