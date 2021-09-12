@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import './App.css';
 
 function App() {
@@ -9,15 +9,6 @@ function App() {
     setTodo(value);
   }
 
-  useEffect(() => {
-    // let todos = localStorage.getItem("todos")
-    // if (!todos) {
-    //   setTodos([])
-    //   return;
-    // }
-    // todos = JSON.parse(todos)
-    // setTodos(todos);
-  }, [])
 
   const create = (event) => {
     event.preventDefault()
