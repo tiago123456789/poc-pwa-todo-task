@@ -1,24 +1,70 @@
-import logo from './logo.svg';
+import { useEffect, useState } from 'react';
 import './App.css';
 
 function App() {
+  const [todos, setTodos] = useState([]);
+  const [todo, setTodo] = useState(null);
+
+  const handlerInputValue = (value) => {
+    setTodo(value);
+  }
+
+  useEffect(() => {
+    let todos = localStorage.getItem("todos")
+    todos = JSON.parse(todos || [])
+    setTodos(todos);
+  }, [])
+
+  const create = (event) => {
+    event.preventDefault()
+    if (isOffline) {
+      storeInLocalDb(todo)
+    }
+    setTodos([...todos, todo])
+    setTodo("");
+
+  }
+
+  const isOffline = () => {
+    return navigator.onLine == false
+  }
+
+  const storeInLocalDb = (todo) => {
+    let todos = localStorage.getItem("todos")
+    if (!todos) {
+      localStorage.setItem("todos", JSON.stringify([todo]))
+      return;
+    }
+
+    todos = JSON.parse(todos)
+    todos.push(todo);
+    localStorage.setItem("todos", JSON.stringify(todos))
+  }
+
+  const doneOrRemove = (index) => {
+    let todos = localStorage.getItem("todos") || []
+    todos = JSON.parse(todos);
+    todos.splice(index, 1);
+    localStorage.setItem("todos", JSON.stringify(todos))
+    setTodos(todos);
+  }
+  
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <>
+      <div >
+         <input type="text" value={todo} onChange={(event) => handlerInputValue(event.target.value)} />
+         <button type="submit" onClick={(event) => create(event)}>Save</button>
+      </div>
+      <ul>
+        {
+          todos.map((todo, index) => {
+            return (
+              <li>{todo} <a onClick={() => doneOrRemove(index)}>Done or Remove</a></li>
+            )
+          })
+        }
+      </ul>
+    </>
   );
 }
 
