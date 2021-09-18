@@ -2,6 +2,9 @@ export default {
 
     getAll() {
         let todos = localStorage.getItem("todos")
+        if (!todos) {
+            todos = [];
+        }
         return JSON.parse(todos)
     },
 
