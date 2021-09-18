@@ -54,5 +54,8 @@ setInterval(() => {
             icon: 'images/xmark.png'},
         ]
       };
+
+      if (self.Notification.permission != "denied") {
         self.registration.showNotification('Task TODO', options)
+      }
 }, 5000)

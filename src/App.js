@@ -43,7 +43,10 @@ function App() {
     localStorage.setItem("todos", JSON.stringify(todos))
     setTodos(todos);
   }
-  
+  window.Notification.requestPermission(() => {
+    
+  });
+
   return (
     <>
       <div >
