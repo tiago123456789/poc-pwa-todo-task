@@ -2,8 +2,8 @@ export default {
 
     getAll() {
         let todos = localStorage.getItem("todos")
-        if (!todos) {
-            todos = [];
+        if (!localStorage.todos) {
+            return [];
         }
         return JSON.parse(todos)
     },
