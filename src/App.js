@@ -1,5 +1,8 @@
-import { useState } from 'react';
-import './App.css';
+import { useEffect, useState } from 'react';
+import todoService from "./services/Todo"
+import '../node_modules/bootstrap/dist/css/bootstrap.min.css';
+import NewTodo from './components/NewTodo';
+import ListTodo from './components/ListTodo';
 
 function App() {
   const [todos, setTodos] = useState([]);
@@ -9,59 +12,29 @@ function App() {
     setTodo(value);
   }
 
-
   const create = (event) => {
     event.preventDefault()
-    if (isOffline) {
-      storeInLocalDb(todo)
-    }
+    todoService.create(todo);
     setTodos([...todos, todo])
     setTodo("");
-
-  }
-
-  const isOffline = () => {
-    return navigator.onLine === false
-  }
-
-  const storeInLocalDb = (todo) => {
-    let todos = localStorage.getItem("todos")
-    if (!todos) {
-      localStorage.setItem("todos", JSON.stringify([todo]))
-      return;
-    }
-
-    todos = JSON.parse(todos)
-    todos.push(todo);
-    localStorage.setItem("todos", JSON.stringify(todos))
   }
 
   const doneOrRemove = (index) => {
-    let todos = localStorage.getItem("todos") || []
-    todos = JSON.parse(todos);
-    todos.splice(index, 1);
-    localStorage.setItem("todos", JSON.stringify(todos))
+    const todos = todoService.deleteOrDone(index);
     setTodos(todos);
   }
-  window.Notification.requestPermission(() => {
-    
-  });
+
+  useEffect(() => {
+    let todos = todoService.getAll();
+    setTodos(todos);
+  }, [])
 
   return (
     <>
       <div >
-         <input type="text" value={todo} onChange={(event) => handlerInputValue(event.target.value)} />
-         <button type="submit" onClick={(event) => create(event)}>Save</button>
+        <NewTodo handlerInputValue={handlerInputValue} todo={todo} create={create} />
       </div>
-      <ul>
-        {
-          todos.map((todo, index) => {
-            return (
-              <li>{todo} <a onClick={() => doneOrRemove(index)}>Done or Remove</a></li>
-            )
-          })
-        }
-      </ul>
+      <ListTodo todos={todos} doneOrRemove={doneOrRemove} />
     </>
   );
 }

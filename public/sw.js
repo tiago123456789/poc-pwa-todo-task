@@ -37,25 +37,3 @@ self.addEventListener('activate', function (event) {
     );
     return self.clients.claim();
 });
-
-setInterval(() => {
-    var options = {
-        body: 'Check if exist someone task open.',
-        icon: '/logo192.png',
-        vibrate: [100, 50, 100],
-        data: {
-          dateOfArrival: Date.now(),
-          primaryKey: '2'
-        },
-        actions: [
-          {action: 'explore', title: 'Explore this new world',
-            icon: 'images/checkmark.png'},
-          {action: 'close', title: 'Close',
-            icon: 'images/xmark.png'},
-        ]
-      };
-
-      if (self.Notification.permission != "denied") {
-        self.registration.showNotification('Task TODO', options)
-      }
-}, 5000)
