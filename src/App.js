@@ -1,8 +1,8 @@
 import { useEffect, useState } from 'react';
 import todoService from "./services/Todo"
-import '../node_modules/bootstrap/dist/css/bootstrap.min.css';
 import NewTodo from './components/NewTodo';
 import ListTodo from './components/ListTodo';
+import '../node_modules/bootstrap/dist/css/bootstrap.min.css';
 
 function App() {
   const [todos, setTodos] = useState([]);
